@@ -6,6 +6,9 @@ GitHub action to setup Node, JFrog credentials, and install dependencies with Ya
 
 ```yml
 - uses: Widen/setup-yarn@v1
+  env:
+    JFROG_USER: ${{ secrets.JFROG_USER }}
+    JFROG_PASS: ${{ secrets.JFROG_PASS }}
 ```
 
 ## Specify Node version
@@ -13,5 +16,8 @@ GitHub action to setup Node, JFrog credentials, and install dependencies with Ya
 ```yml
 - uses: Widen/setup-yarn@v1
   with:
-   node-version: '16.x'
+    node-version: '16.x'
+  env:
+    JFROG_USER: ${{ secrets.JFROG_USER }}
+    JFROG_PASS: ${{ secrets.JFROG_PASS }}
 ```
