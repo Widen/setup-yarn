@@ -1,0 +1,22 @@
+name: 'Setup Yarn'
+description: 'GitHub action to setup Node, JFrog credentials, and install dependencies with Yarn.'
+inputs:
+  node-version:
+    description: Node version to use, defaults to the current LTS version.
+    default: '16.x'
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }}
+    - name: Configure Yarn authentication
+      run: |
+        IDENT=$(printf "$JFROG_USER:$JFROG_PASS" | base64)
+        yarn config set -H npmRegistryServer "https://widen.jfrog.io/widen/api/npm/npm-virtual"
+        yarn config set -H npmAlwaysAuth true
+        yarn config set -H npmAuthIdent "$IDENT"
+      shell: bash
+    - name: Install dependencies
+      run: yarn install --immutable
+      shell: bash
